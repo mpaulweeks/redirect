@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-const baseAssets = 'http://s3.amazonaws.com/mpaulweeks-redirect/fe/';
-const logoUrl = baseAssets + 'favicon.png';
+const logoUrl = `${window.ROOT_PATH}/favicon.png`;
 
 class API {
   constructor() {
