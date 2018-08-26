@@ -1,0 +1,11 @@
+{
+  "name": "redirect",
+  "version": "0.1.0",
+  "repository": "git@github.com:mpaulweeks/redirect.git",
+  "author": "mpaulweeks <mpaulweeks@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "fe": "cd packages/fe && yarn start"
+  }
+}
