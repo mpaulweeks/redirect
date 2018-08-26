@@ -2,61 +2,20 @@
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const AWS = require('aws-sdk');
+const store = require('./store');
 
 const app = express();
-app.use(bodyParser.json()); // support json encoded bodies
-const s3 = new AWS.S3();
-const s3Config = {
-  Bucket: 'mpaulweeks-redirect',
-  Key: 'links.json',
-}
+app.use(bodyParser.json()); // support json encoded POST bodies
 
-// s3 handlers
-
-function s3getLinks() {
-  // https://s3.amazonaws.com/mpaulweeks-redirect/links.json
-  return new Promise((resolve, reject) => {
-    s3.getObject({
-      ...s3Config,
-    }, (error, data) => {
-      if (error != null) {
-        console.log('Failed to retrieve an object: ' + error);
-        reject(error);
-      } else {
-        const links = JSON.parse(data.Body.toString());
-        resolve(links);
-      }
-    });
-  });
-}
-
-function s3putLinks(links) {
-  // https://s3.amazonaws.com/mpaulweeks-redirect/links.json
-  return new Promise((resolve, reject) => {
-    s3.putObject({
-      ...s3Config,
-      Body: JSON.stringify(links, null, 2),
-    }, (error, data) => {
-      if (error != null) {
-        console.log('Failed to put an object: ' + error);
-        reject(error);
-      } else {
-        resolve();
-      }
-    });
-  });
-}
-
-// response handlers
+// response helpers
 
 function addLink(res, key, value) {
-  s3getLinks().then(links => {
+  store.getLinks().then(links => {
     links[key] = value;
     if (!value) {
       delete links[key];
     }
-    return s3putLinks(links).then(() => {
+    return store.putLinks(links).then(() => {
       res.send(JSON.stringify(links));
     });
   }).catch(error => {
@@ -65,7 +24,7 @@ function addLink(res, key, value) {
 }
 
 function viewLinks(res) {
-  s3getLinks().then(links => {
+  store.getLinks().then(links => {
     res.send(JSON.stringify(links));
   }).catch(error => {
     res.send('error: ' + error);
@@ -73,7 +32,7 @@ function viewLinks(res) {
 }
 
 function triggerRedirect(res, key){
-  return s3getLinks().then(links => {
+  return store.getLinks().then(links => {
     const dest = links[key];
     if (dest) {
       res.redirect(dest);
