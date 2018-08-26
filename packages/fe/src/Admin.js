@@ -5,6 +5,10 @@ const Container = styled.div`
   text-align: center;
   max-width: 700px;
   margin: 10px auto;
+
+  & > * {
+    margin: 10px auto;
+  }
 `;
 
 class API {
@@ -20,9 +24,18 @@ class API {
     return fetch(this.baseUrl)
       .then(resp => resp.json())
   }
+  addLink(payload) {
+    return fetch(this.baseUrl, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then(resp => resp.json());
+  }
 }
 
-class App extends Component {
+class AdminApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,11 +50,26 @@ class App extends Component {
       });
     })
   }
+  onSubmit(e) {
+    e.preventDefault();
+    const payload = {
+      key: this.refs.key.value,
+      value: this.refs.value.value,
+    };
+    this.api.addLink(payload).then(links => {
+      window.location.reload();
+    })
+  }
   render() {
     const { links } = this.state;
     return (
       <Container>
-        admin view. hello world!
+        <h1>admin</h1>
+        <form onSubmit={e => this.onSubmit(e)}>
+          <input type="text" ref="key" placeholder="short" />
+          <input type="text" ref="value" placeholder="full url" />
+          <input type="submit" value="save" />
+        </form>
         <table>
           <thead>
             <tr>
@@ -63,4 +91,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default AdminApp;
