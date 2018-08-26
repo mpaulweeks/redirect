@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-const Container = styled.div`
+const AdminContainer = styled.div`
   text-align: center;
   max-width: 700px;
   margin: 10px auto;
@@ -9,6 +9,17 @@ const Container = styled.div`
   & > * {
     margin: 10px auto;
   }
+`;
+
+const WelcomeContainer = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #888;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 class API {
@@ -57,13 +68,17 @@ class AdminApp extends Component {
       value: this.refs.value.value,
     };
     this.api.addLink(payload).then(links => {
-      window.location.reload();
+      this.refs.key.value = '';
+      this.refs.value.value = '';
+      this.setState({
+        links: links,
+      });
     })
   }
   render() {
     const { links } = this.state;
     return (
-      <Container>
+      <AdminContainer>
         <h1>admin</h1>
         <form onSubmit={e => this.onSubmit(e)}>
           <input type="text" ref="key" placeholder="short" />
@@ -86,9 +101,48 @@ class AdminApp extends Component {
             ))}
           </tbody>
         </table>
-      </Container>
+      </AdminContainer>
     );
   }
 }
 
-export default AdminApp;
+class WelcomeApp extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      unlocked: false,
+    };
+  }
+  hashInput(str) {
+    var hash = 0;
+    if (str.length == 0) {
+      return hash;
+    }
+    for (var i = 0; i < str.length; i++) {
+      var char = str.charCodeAt(i);
+      hash = ((hash<<5)-hash)+char;
+      hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+  }
+  onChange(e) {
+    const hash = this.hashInput(e.target.value);
+    if (hash === -392011043){
+      this.setState({
+        unlocked: true,
+      });
+    }
+  }
+  render() {
+    const { unlocked } = this.state;
+    return unlocked ? (
+      <AdminApp />
+    ) : (
+      <WelcomeContainer>
+        <input type="password" onChange={e => this.onChange(e)} />
+      </WelcomeContainer>
+    );
+  }
+}
+
+export default WelcomeApp;

@@ -54,7 +54,7 @@ function putLinks(links) {
         console.log('Failed to put an object: ' + error);
         reject(error);
       } else {
-        resolve();
+        resolve(links);
       }
     });
   });

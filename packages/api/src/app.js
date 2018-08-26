@@ -20,8 +20,8 @@ function addLink(res, key, value) {
     if (!value) {
       delete links[key];
     }
-    return store.putLinks(links).then(() => {
-      res.send(JSON.stringify(links));
+    return store.putLinks(links).then(newLinks => {
+      res.send(JSON.stringify(newLinks));
     });
   }).catch(error => {
     res.send('error: ' + error);
