@@ -10,3 +10,9 @@ table {
 table, th, td {
   border: 1px solid black;
 }
+tr > * {
+  padding: 4px;
+}
+td:last-child {
+  text-align: left;
+}

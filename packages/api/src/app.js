@@ -14,10 +14,12 @@ app.use(function(req, res, next) {
 
 // response helpers
 
+const BLACKLIST = ['admin', 'api'];
+
 function addLink(res, key, value) {
   store.getLinks().then(links => {
     links[key] = value;
-    if (!value) {
+    if (!value || BLACKLIST.includes(key)) {
       delete links[key];
     }
     return store.putLinks(links).then(newLinks => {
@@ -83,7 +85,7 @@ app.get('/:key', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-  triggerRedirect(res, 'default');
+  triggerRedirect(res, 'root');
 })
 
 module.exports = app

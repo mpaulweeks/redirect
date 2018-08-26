@@ -1,27 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-const AdminContainer = styled.div`
-  text-align: center;
-  max-width: 700px;
-  margin: 10px auto;
-
-  & > * {
-    margin: 10px auto;
-  }
-`;
-
-const WelcomeContainer = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-color: #888;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 class API {
   constructor() {
     const isDev = window.location.href.includes('localhost');
@@ -46,7 +25,17 @@ class API {
   }
 }
 
-class AdminApp extends Component {
+const Container = styled.div`
+  text-align: center;
+  max-width: 700px;
+  margin: 10px auto;
+
+  & > * {
+    margin: 10px auto;
+  }
+`;
+
+class Editor extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -77,8 +66,10 @@ class AdminApp extends Component {
   }
   render() {
     const { links } = this.state;
+    const sortedKeys = Object.keys(links);
+    sortedKeys.sort();
     return (
-      <AdminContainer>
+      <Container>
         <h1>admin</h1>
         <form onSubmit={e => this.onSubmit(e)}>
           <input type="text" ref="key" placeholder="short" />
@@ -93,20 +84,31 @@ class AdminApp extends Component {
             </tr>
           </thead>
           <tbody>
-            {Object.keys(links).map(key => (
+            {sortedKeys.map(key => (
               <tr key={'link-'+key}>
                 <td>{key}</td>
-                <td>{links[key]}</td>
+                <td><a href={links[key]}>{links[key]}</a></td>
               </tr>
             ))}
           </tbody>
         </table>
-      </AdminContainer>
+      </Container>
     );
   }
 }
 
-class WelcomeApp extends Component {
+const Welcome = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #888;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+class AdminApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -114,8 +116,9 @@ class WelcomeApp extends Component {
     };
   }
   hashInput(str) {
+    // https://stackoverflow.com/a/8831937/6461842
     var hash = 0;
-    if (str.length == 0) {
+    if (str.length === 0) {
       return hash;
     }
     for (var i = 0; i < str.length; i++) {
@@ -136,13 +139,13 @@ class WelcomeApp extends Component {
   render() {
     const { unlocked } = this.state;
     return unlocked ? (
-      <AdminApp />
+      <Editor />
     ) : (
-      <WelcomeContainer>
+      <Welcome>
         <input type="password" onChange={e => this.onChange(e)} />
-      </WelcomeContainer>
+      </Welcome>
     );
   }
 }
 
-export default WelcomeApp;
+export default AdminApp;
