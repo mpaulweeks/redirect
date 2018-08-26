@@ -61,4 +61,4 @@ typings/
 .next
 
 # package builds
-packages/*/build/
+pkg/*/build/

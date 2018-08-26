@@ -6,9 +6,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "api": "cd packages/api && yarn run start",
-    "fe": "cd packages/fe && yarn run start",
-    "install-all": "yarn install && cd packages/api && yarn install && cd ../fe && yarn install",
-    "deploy": "cd packages/api && yarn run deploy && cd ../fe && yarn run deploy"
+    "api": "cd pkg/api && yarn run start",
+    "fe": "cd pkg/fe && yarn run start",
+    "install-all": "yarn install && cd pkg/api && yarn install && cd ../fe && yarn install",
+    "deploy": "cd pkg/api && yarn run deploy && cd ../fe && yarn run deploy"
   }
 }
