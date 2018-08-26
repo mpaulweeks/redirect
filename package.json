@@ -8,6 +8,7 @@
   "scripts": {
     "api": "cd packages/api && yarn run start",
     "fe": "cd packages/fe && yarn run start",
+    "setup": "yarn install && cd packages/api && yarn install && cd ../fe && yarn install",
     "deploy": "cd packages/api && yarn run deploy && cd ../fe && yarn run deploy"
   }
 }
