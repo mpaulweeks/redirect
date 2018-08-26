@@ -72,14 +72,20 @@ class Editor extends Component {
       <Container>
         <h1>admin</h1>
         <form onSubmit={e => this.onSubmit(e)}>
-          <input type="text" ref="key" placeholder="short" />
-          <input type="text" ref="value" placeholder="full url" />
-          <input type="submit" value="save" />
+          <div>
+            <input type="text" ref="key" placeholder="short" />
+          </div>
+          <div>
+            <input type="text" ref="value" placeholder="full url" />
+          </div>
+          <div>
+            <input type="submit" value="save" />
+          </div>
         </form>
         <table>
           <thead>
             <tr>
-              <th>shortened link</th>
+              <th>short</th>
               <th>full url</th>
             </tr>
           </thead>
