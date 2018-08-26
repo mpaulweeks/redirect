@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Favicon from './favicon.png';
+
+const baseAssets = 'http://s3.amazonaws.com/mpaulweeks-redirect/fe/';
+const logoUrl = baseAssets + 'favicon.png';
 
 class API {
   constructor() {
@@ -151,7 +153,7 @@ class AdminApp extends Component {
     ) : (
       <Welcome>
         <div>
-          <img src={Favicon} alt="redirect logo" />
+          <img src={logoUrl} alt="redirect logo" />
         </div>
         <div>
           <input type="password" onChange={e => this.onChange(e)} />
