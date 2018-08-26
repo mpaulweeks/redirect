@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import Favicon from './favicon.png';
 
 class API {
   constructor() {
@@ -110,6 +111,7 @@ const Welcome = styled.div`
   background-color: #888;
 
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
@@ -148,7 +150,12 @@ class AdminApp extends Component {
       <Editor />
     ) : (
       <Welcome>
-        <input type="password" onChange={e => this.onChange(e)} />
+        <div>
+          <img src={Favicon} alt="redirect logo" />
+        </div>
+        <div>
+          <input type="password" onChange={e => this.onChange(e)} />
+        </div>
       </Welcome>
     );
   }

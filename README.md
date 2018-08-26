@@ -29,3 +29,9 @@ afterwards in AWS:
 - use API Gateway to add the custom domain
   - Create Custom Domain name using the cert generated above
   - add Base Path Mapping with the `Path` empty and the `Destination` set to production
+
+## todo
+
+- better experience when invalid redirect
+- have one fe app serve many urls, either via path detection and/or inserted config
+- check password hash on api side
