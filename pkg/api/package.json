@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "deploy": "claudia update",
-    "start": "nodemon src/app.local.js"
+    "start": "nodemon src/app.local.js",
+    "test": "echo 'todo api tests'"
   },
   "dependencies": {
     "aws-sdk": "^2.302.0",

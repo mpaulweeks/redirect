@@ -9,6 +9,7 @@
     "api": "cd pkg/api && yarn run start",
     "fe": "cd pkg/fe && yarn run start",
     "install-all": "yarn install && cd pkg/api && yarn install && cd ../fe && yarn install",
+    "test": "cd pkg/api && yarn run test && cd ../fe && yarn run test",
     "deploy": "cd pkg/api && yarn run deploy && cd ../fe && yarn run deploy"
   }
 }
