@@ -8,7 +8,23 @@ const s3Config = {
   Key: 'links.json',
 }
 
-// s3 handlers
+function getIndex() {
+  // https://s3.amazonaws.com/mpaulweeks-redirect/fe/index.html
+  return new Promise((resolve, reject) => {
+    s3.getObject({
+      ...s3Config,
+      Key: 'fe/index.html',
+    }, (error, data) => {
+      if (error != null) {
+        console.log('Failed to retrieve an object: ' + error);
+        reject(error);
+      } else {
+        const index = data.Body.toString();
+        resolve(index);
+      }
+    });
+  });
+}
 
 function getLinks() {
   // https://s3.amazonaws.com/mpaulweeks-redirect/links.json
@@ -45,6 +61,7 @@ function putLinks(links) {
 }
 
 module.exports = {
+  getIndex,
   getLinks,
   putLinks,
 };

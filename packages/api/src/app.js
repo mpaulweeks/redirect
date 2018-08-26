@@ -6,6 +6,11 @@ const store = require('./store');
 
 const app = express();
 app.use(bodyParser.json()); // support json encoded POST bodies
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 // response helpers
 
@@ -32,7 +37,7 @@ function viewLinks(res) {
 }
 
 function triggerRedirect(res, key){
-  return store.getLinks().then(links => {
+  store.getLinks().then(links => {
     const dest = links[key];
     if (dest) {
       res.redirect(dest);
@@ -44,30 +49,41 @@ function triggerRedirect(res, key){
   });
 }
 
+function displayAdmin(res, isDev){
+  store.getIndex().then(html => {
+    // todo if (isDev), use local assets
+    const assetBase = 'https://s3.amazonaws.com/mpaulweeks-redirect/fe';
+    const formatted = html.split('[ROOT]').join(assetBase);
+    res.send(formatted);
+  }).catch(error => {
+    res.send('error: ' + error);
+  });
+}
+
 // routes
 
 app.get('/admin', (req, res) => {
-  // todo serve fe
-  res.send('api admin page');
+  const isDev = req.hostname.includes('localhost');
+  displayAdmin(res, isDev);
 })
 
 app.get('/api', (req, res) => {
-  return viewLinks(res);
+  viewLinks(res);
 })
 
 app.post('/api', (req, res) => {
   const key = req.body.key;
   const value = req.body.value;
-  return addLink(res, key, value);
+  addLink(res, key, value);
 })
 
 app.get('/:key', (req, res) => {
   const key = req.params.key;
-  return triggerRedirect(res, key);
+  triggerRedirect(res, key);
 })
 
 app.get('/', (req, res) => {
-  return triggerRedirect(res, 'default');
+  triggerRedirect(res, 'default');
 })
 
 module.exports = app
