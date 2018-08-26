@@ -26,6 +26,6 @@ afterwards in AWS:
 
 - use ACM to create a new cert
   - use DNS provider to verify the cert
-- use API gateway to add the custom domain
+- use API Gateway to add the custom domain
   - Create Custom Domain name using the cert generated above
-  - add Base Path Mapping with the destination set but the Path empty
+  - add Base Path Mapping with the `Path` empty and the `Destination` set to production
