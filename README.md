@@ -1,37 +1,11 @@
 # redirect
 
-simple app to experiment with Node/Express + serverless architecture
+[![CircleCI](https://circleci.com/gh/mpaulweeks/redirect/tree/master.svg?style=svg)](https://circleci.com/gh/mpaulweeks/redirect/tree/master)
 
-## setting up claudia locally and creating the lamda
+[mpaul.info](https://mpaul.info)
 
-see [pkg/api/README.md](/pkg/api/README.md)
-
-afterwards in AWS:
-
-- ensure `fe` folder resources are public
-  - see [s3_bucket_policy.txt](/s3_bucket_policy.txt)
-  - see [s3_cors_policy.txt](/s3_cors_policy.txt)
-- ensure role `redirect-api-executor` has the policy `AmazonS3FullAccess`
-
-## setting up CircleCI and automated deploys
-
-- create group with the following policies:
-  - `AWSLambdaFullAccess`
-  - `IAMFullAccess`
-  - `AmazonAPIGatewayAdministrator`
-- create new IAM user with the above group
-- add user to CircleCI project config
-
-## setting up custom domain
-
-- use ACM to create a new cert
-  - use DNS provider to verify the cert
-- use API Gateway to add the custom domain
-  - Create Custom Domain name using the cert generated above
-  - add Base Path Mapping with the `Path` empty and the `Destination` set to production
-
-## todo
-
-- better experience when invalid redirect
-- have one fe app serve many urls, either via path detection and/or inserted config
-- check password hash on api side
+simple bitly-like POC made to experiment with:
+- Node/Express
+- JS monorepo
+- serverless architecture
+- automated deploys
