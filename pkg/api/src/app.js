@@ -53,10 +53,7 @@ function triggerRedirect(res, key){
 
 function displayAdmin(res, isDev){
   store.getIndex().then(html => {
-    // todo if (isDev), use local assets
-    const assetBase = 'https://s3.amazonaws.com/mpaulweeks-redirect/fe';
-    const formatted = html.split('[ROOT]').join(assetBase);
-    res.send(formatted);
+    res.send(html);
   }).catch(error => {
     res.send('error: ' + error);
   });

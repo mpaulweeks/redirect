@@ -2,7 +2,7 @@
   "name": "redirect-fe",
   "version": "0.1.0",
   "private": true,
-  "homepage": "[ROOT]",
+  "homepage": "https://s3.amazonaws.com/mpaulweeks-redirect/fe",
   "dependencies": {
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
