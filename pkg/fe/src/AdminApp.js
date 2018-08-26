@@ -4,7 +4,8 @@ import styled from 'styled-components';
 const logoUrl = `${window.ROOT_PATH}/favicon.png`;
 
 class API {
-  constructor() {
+  constructor(password) {
+    this.password = password;
     const isDev = window.location.href.includes('localhost');
     this.baseUrl = (
       isDev ?
@@ -19,11 +20,19 @@ class API {
   addLink(payload) {
     return fetch(this.baseUrl, {
       method: 'POST',
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        ...payload,
+        password: this.password,
+      }),
       headers: {
         'Content-Type': 'application/json',
       },
-    }).then(resp => resp.json());
+    }).then(resp => {
+      if (!resp.ok) {
+        throw Error(resp.statusText);
+      }
+      return resp.json();
+    });
   }
 }
 
@@ -37,15 +46,20 @@ const Container = styled.div`
   }
 `;
 
+const ErrorText = styled.div`
+  color: red;
+`;
+
 class Editor extends Component {
   constructor(props) {
     super(props);
     this.state = {
       links: {},
+      error: null,
     };
   }
   componentDidMount() {
-    this.api = new API();
+    this.api = new API(this.props.password);
     this.api.fetchLinks().then(links => {
       this.setState({
         links: links,
@@ -63,11 +77,16 @@ class Editor extends Component {
       this.refs.value.value = '';
       this.setState({
         links: links,
+        error: null,
       });
-    })
+    }).catch(err => {
+      this.setState({
+        error: err.toString(),
+      });
+    });
   }
   render() {
-    const { links } = this.state;
+    const { links, error } = this.state;
     const sortedKeys = Object.keys(links);
     sortedKeys.sort();
     return (
@@ -100,6 +119,11 @@ class Editor extends Component {
             ))}
           </tbody>
         </table>
+        {error && (
+          <ErrorText>
+            {error}
+          </ErrorText>
+        )}
       </Container>
     );
   }
@@ -127,7 +151,7 @@ class AdminApp extends Component {
   hashInput(str) {
     // https://stackoverflow.com/a/8831937/6461842
     var hash = 0;
-    if (str.length === 0) {
+    if (!str || str.length === 0) {
       return hash;
     }
     for (var i = 0; i < str.length; i++) {
@@ -138,17 +162,19 @@ class AdminApp extends Component {
     return hash;
   }
   onChange(e) {
-    const hash = this.hashInput(e.target.value);
-    if (hash === -392011043){
+    const password = e.target.value;
+    const hash = this.hashInput(password);
+    if (hash === 1265856690){
       this.setState({
         unlocked: true,
+        password: password,
       });
     }
   }
   render() {
-    const { unlocked } = this.state;
+    const { unlocked, password } = this.state;
     return unlocked ? (
-      <Editor />
+      <Editor password={password}/>
     ) : (
       <Welcome>
         <div>

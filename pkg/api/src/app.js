@@ -62,6 +62,23 @@ function displayAdmin(res, isDev){
   });
 }
 
+function verifyPassword(password){
+  function hashInput(str) {
+    // https://stackoverflow.com/a/8831937/6461842
+    var hash = 0;
+    if (!str || str.length === 0) {
+      return hash;
+    }
+    for (var i = 0; i < str.length; i++) {
+      var char = str.charCodeAt(i);
+      hash = ((hash<<5)-hash)+char;
+      hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+  }
+  return hashInput(password) === 1265856690;
+}
+
 // routes
 
 app.get('/admin', (req, res) => {
@@ -74,9 +91,22 @@ app.get('/api', (req, res) => {
 })
 
 app.post('/api', (req, res) => {
+  const password = req.body.password;
   const key = req.body.key;
   const value = req.body.value;
-  addLink(res, key, value);
+
+  if (!verifyPassword(password)) {
+    res.status(401).send({
+      message: 'invalid password',
+    });
+  }
+  else if (!key) {
+    res.status(400).send({
+      message: 'invalid key',
+    });
+  } else {
+    addLink(res, key, value);
+  }
 })
 
 app.get('/:key', (req, res) => {
