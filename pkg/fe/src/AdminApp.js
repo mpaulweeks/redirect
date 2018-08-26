@@ -7,7 +7,7 @@ class API {
     this.baseUrl = (
       isDev ?
       'http://localhost:3001' :
-      'https://yi9bbl5wp1.execute-api.us-east-1.amazonaws.com/latest'
+      ''
     ) + '/api';
   }
   fetchLinks() {

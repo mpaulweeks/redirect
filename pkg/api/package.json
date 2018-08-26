@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "deploy": "claudia update",
+    "deploy": "claudia update --version production",
+    "stage": "claudia update --version staging",
     "start": "nodemon src/app.local.js",
     "test": "echo 'todo api tests'"
   },

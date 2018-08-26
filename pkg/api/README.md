@@ -1,6 +1,7 @@
 # redirect-api
 
-https://yi9bbl5wp1.execute-api.us-east-1.amazonaws.com/latest
+https://yi9bbl5wp1.execute-api.us-east-1.amazonaws.com/production
+https://yi9bbl5wp1.execute-api.us-east-1.amazonaws.com/staging
 
 ## installation
 
