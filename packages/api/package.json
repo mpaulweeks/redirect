@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "init-lambda": "claudia generate-serverless-express-proxy --express-module src/app && rm package-lock.json",
+    "init-1": "claudia generate-serverless-express-proxy --express-module src/app && rm package-lock.json",
+    "init-2": "claudia create --handler lambda.handler --deploy-proxy-api --region us-east-1",
     "start": "nodemon src/app.local.js"
   },
   "dependencies": {

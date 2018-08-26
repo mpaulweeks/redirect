@@ -1,0 +1,10 @@
+{
+  "lambda": {
+    "role": "redirect-api-executor",
+    "name": "redirect-api",
+    "region": "us-east-1"
+  },
+  "api": {
+    "id": "yi9bbl5wp1"
+  }
+}
