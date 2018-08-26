@@ -12,7 +12,7 @@ class App extends Component {
   render() {
     return (
       <Container>
-        admin view
+        admin view. hello world!
       </Container>
     );
   }

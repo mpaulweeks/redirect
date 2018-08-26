@@ -2,6 +2,7 @@
   "name": "redirect-fe",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
@@ -11,6 +12,8 @@
     "react-scripts": "1.1.5"
   },
   "scripts": {
+    "predeploy": "yarn run build",
+    "deploy": "aws s3 sync build s3://mpaulweeks-redirect/fe",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",

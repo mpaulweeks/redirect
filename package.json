@@ -6,6 +6,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "fe": "cd packages/fe && yarn start"
+    "api": "cd packages/api && yarn run start",
+    "fe": "cd packages/fe && yarn run start",
+    "deploy": "cd packages/api && yarn run deploy && cd ../fe && yarn run deploy"
   }
 }
