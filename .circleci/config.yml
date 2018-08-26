@@ -45,6 +45,11 @@ jobs:
             yarn run test
 
       - run:
+          name: Install AWS CLI
+          command: |
+            sudo apt-get -y -qq install awscli
+
+      - run:
           name: Deploy
           command: |
             yarn run deploy
