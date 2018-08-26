@@ -1,0 +1,17 @@
+{
+  "name": "redirect-api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "init-lambda": "claudia generate-serverless-express-proxy --express-module src/app && rm package-lock.json",
+    "start": "nodemon src/app.local.js"
+  },
+  "dependencies": {
+    "aws-serverless-express": "^3.3.5",
+    "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "claudia": "^5.1.1",
+    "nodemon": "^1.18.3"
+  }
+}
