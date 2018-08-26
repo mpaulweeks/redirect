@@ -26,10 +26,28 @@ function getLinks(res) {
   });
 }
 
-app.get('/', (req, res) => {
-  getLinks().then(links => {
-    res.send('api hello world: ' + JSON.stringify(links))
+function triggerRedirect(res, key){
+  return getLinks().then(links => {
+    const dest = links[key];
+    if (dest) {
+      res.redirect(dest);
+    } else {
+      res.send('redirect not found for: ' + key);
+    }
   });
+}
+
+app.get('/admin', (req, res) => {
+  res.send('api admin page');
+})
+
+app.get('/:key', (req, res) => {
+  const key = req.params.key;
+  return triggerRedirect(res, key);
+})
+
+app.get('/', (req, res) => {
+  return triggerRedirect(res, 'default');
 })
 
 module.exports = app
