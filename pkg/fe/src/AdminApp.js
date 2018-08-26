@@ -6,9 +6,9 @@ class API {
     const isDev = window.location.href.includes('localhost');
     this.baseUrl = (
       isDev ?
-      'http://localhost:3001' :
+      'http://localhost:3001/' :
       ''
-    ) + '/api';
+    ) + 'api';
   }
   fetchLinks() {
     return fetch(this.baseUrl)
