@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
 
 import { FixedContainer, Logo, Title } from './Common';
-import EditorApp from './EditorApp';
-
 
 class NotFoundApp extends Component {
   render() {
