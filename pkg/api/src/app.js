@@ -15,13 +15,13 @@ app.use(function(req, res, next) {
 // response helpers
 
 const BLACKLIST = [
-  'admin',
+  'about', // serves html
+  'admin', // serves html
   'api',
-  'root',
-  'error', // to have as example
+  'error', // serves html
 ];
 
-function renderFrontend(res){
+function renderFrontend(req, res){
   const isDev = req.hostname.includes('localhost');
   // todo if (isDev), use local assets
   store.getIndex().then(html => {
@@ -33,7 +33,7 @@ function renderFrontend(res){
   });
 }
 
-function addLink(res, key, value) {
+function addLink(req, res, key, value) {
   store.getLinks().then(links => {
     links[key] = value;
     if (!value || BLACKLIST.includes(key)) {
@@ -47,7 +47,7 @@ function addLink(res, key, value) {
   });
 }
 
-function viewLinks(res) {
+function viewLinks(req, res) {
   store.getLinks().then(links => {
     res.send(JSON.stringify(links));
   }).catch(error => {
@@ -55,13 +55,13 @@ function viewLinks(res) {
   });
 }
 
-function triggerRedirect(res, key){
+function tryRedirect(req, res, key){
   store.getLinks().then(links => {
     const dest = links[key];
     if (dest) {
       res.redirect(dest);
     } else {
-      renderFrontend(res);
+      renderFrontend(req, res);
     }
   }).catch(error => {
     res.send('error: ' + error);
@@ -87,14 +87,19 @@ function verifyPassword(password){
 
 // routes
 
+app.get('/about', (req, res) => {
+  renderFrontend(req, res);
+})
 app.get('/admin', (req, res) => {
-  renderFrontend(res);
+  renderFrontend(req, res);
+})
+app.get('/error', (req, res) => {
+  renderFrontend(req, res);
 })
 
 app.get('/api', (req, res) => {
-  viewLinks(res);
+  viewLinks(req, res);
 })
-
 app.post('/api', (req, res) => {
   const password = req.body.password;
   const key = req.body.key;
@@ -110,17 +115,16 @@ app.post('/api', (req, res) => {
       message: 'invalid key',
     });
   } else {
-    addLink(res, key, value);
+    addLink(req, res, key, value);
   }
 })
 
 app.get('/:key', (req, res) => {
   const key = req.params.key;
-  triggerRedirect(res, key);
+  tryRedirect(req, res, key);
 })
-
 app.get('/', (req, res) => {
-  triggerRedirect(res, 'root');
+  tryRedirect(req, res, 'root');
 })
 
 module.exports = app

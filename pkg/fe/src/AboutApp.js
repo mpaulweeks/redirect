@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 
 import { FixedContainer, Logo, Title } from './Common';
 
-class WelcomeApp extends Component {
+class AboutApp extends Component {
   render() {
     return (
       <FixedContainer>
         <Logo />
-        <Title> welcome to <u>redirect</u> </Title>
+        <Title> <u>redirect</u> </Title>
         <div>
           you weren't meant to find this page. nothing to see here!
         </div>
@@ -16,4 +16,4 @@ class WelcomeApp extends Component {
   }
 }
 
-export default WelcomeApp;
+export default AboutApp;

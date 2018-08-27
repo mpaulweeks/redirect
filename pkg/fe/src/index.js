@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+import AboutApp from './AboutApp';
 import AdminApp from './AdminApp';
-import WelcomeApp from './WelcomeApp';
 import NotFoundApp from './NotFoundApp';
 
 const render = App => {
@@ -14,9 +14,9 @@ const render = App => {
 }
 
 const selector = window.location.pathname;
-if (!selector || selector === '/'){
-  render(WelcomeApp);
-} else if (selector.includes('admin')){
+if (selector === '/about'){
+  render(AboutApp);
+} else if (selector === '/admin'){
   render(AdminApp);
 } else {
   render(NotFoundApp);
