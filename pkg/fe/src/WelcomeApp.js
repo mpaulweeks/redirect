@@ -7,7 +7,7 @@ class WelcomeApp extends Component {
     return (
       <FixedContainer>
         <Logo />
-        <Title> welcome to <strong>redirect</strong> </Title>
+        <Title> welcome to <u>redirect</u> </Title>
         <div>
           you weren't meant to find this page. nothing to see here!
         </div>
