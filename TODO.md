@@ -1,4 +1,4 @@
 # todo
 
-- better experience when invalid redirect
-- have one fe app serve many urls, either via path detection and/or inserted config
+- option to inject which app to see vs reading pathnam
+- address todo in api/src/app.js

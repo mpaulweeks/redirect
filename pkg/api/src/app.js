@@ -14,7 +14,24 @@ app.use(function(req, res, next) {
 
 // response helpers
 
-const BLACKLIST = ['admin', 'api'];
+const BLACKLIST = [
+  'admin',
+  'api',
+  'root',
+  'error', // to have as example
+];
+
+function renderFrontend(res){
+  const isDev = req.hostname.includes('localhost');
+  // todo if (isDev), use local assets
+  store.getIndex().then(html => {
+    const assetBase = 'https://s3.amazonaws.com/mpaulweeks-redirect/fe';
+    const formatted = html.split('[ROOT]').join(assetBase);
+    res.send(formatted);
+  }).catch(error => {
+    res.send('error: ' + error);
+  });
+}
 
 function addLink(res, key, value) {
   store.getLinks().then(links => {
@@ -44,19 +61,8 @@ function triggerRedirect(res, key){
     if (dest) {
       res.redirect(dest);
     } else {
-      res.send('redirect not found for: ' + key);
+      renderFrontend(res);
     }
-  }).catch(error => {
-    res.send('error: ' + error);
-  });
-}
-
-function displayAdmin(res, isDev){
-  store.getIndex().then(html => {
-    // todo if (isDev), use local assets
-    const assetBase = 'https://s3.amazonaws.com/mpaulweeks-redirect/fe';
-    const formatted = html.split('[ROOT]').join(assetBase);
-    res.send(formatted);
   }).catch(error => {
     res.send('error: ' + error);
   });
@@ -82,8 +88,7 @@ function verifyPassword(password){
 // routes
 
 app.get('/admin', (req, res) => {
-  const isDev = req.hostname.includes('localhost');
-  displayAdmin(res, isDev);
+  renderFrontend(res);
 })
 
 app.get('/api', (req, res) => {

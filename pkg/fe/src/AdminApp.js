@@ -1,21 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+import { FixedContainer, Logo, Title } from './Common';
 import EditorApp from './EditorApp';
-
-const logoUrl = `${window.ROOT_PATH}/favicon.png`;
-
-const Welcome = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background-color: #888;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
 
 class AdminApp extends Component {
   constructor(props) {
@@ -52,14 +39,13 @@ class AdminApp extends Component {
     return unlocked ? (
       <EditorApp password={password}/>
     ) : (
-      <Welcome>
-        <div>
-          <img src={logoUrl} alt="redirect logo" />
-        </div>
+      <FixedContainer>
+        <Logo />
+        <Title> admin login </Title>
         <form>
           <input type="password" onChange={e => this.onChange(e)} />
         </form>
-      </Welcome>
+      </FixedContainer>
     );
   }
 }
